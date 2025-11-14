@@ -28,16 +28,11 @@ WORKDIR /app
 # Copy only package.json and package-lock.json
 COPY package*.json ./
 
-# Install only production dependencies
 RUN npm ci --only=production
 
-# Copy built files from build stage
 COPY --from=build /app/dist ./dist
 
-# Copy .env or any other required files
-COPY --from=build /app/.env ./
 
-# Expose the port your NestJS app uses
 EXPOSE 3000
 
 CMD ["node", "dist/main.js"]
