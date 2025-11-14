@@ -1,31 +1,22 @@
-# ------------------------------
-# 1️⃣ Build Stage
-# ------------------------------
-FROM node:18-alpine AS build
+# Build Stage
+FROM node:22-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first (caching)
 COPY package*.json ./
 
-# Install all dependencies (including devDependencies for build)
 RUN npm ci
 
-# Copy the rest of the app
 COPY . .
 
-# Build the NestJS app
+
 RUN npm run build
 
-# ------------------------------
-# 2️⃣ Production Stage
-# ------------------------------
-FROM node:18-alpine
+# Production Stage
+FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy only package.json and package-lock.json
 COPY package*.json ./
 
 RUN npm ci --only=production
