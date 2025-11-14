@@ -1,6 +1,6 @@
 name: CI_PIPELINE
 
-ON:
+on:
     push:
       branches:
         - main
